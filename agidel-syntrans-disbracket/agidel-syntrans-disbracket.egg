@@ -1,0 +1,4 @@
+((author "Timur Ismagilov")
+ (synopsis "Agidel syntax transformer that transforms [] to (_bracket)")
+ (license "GPLv3")
+ (components (extension agidel-syntrans-disbracket)))
