@@ -1,5 +1,5 @@
 (module
- agidel-syntrans-disbracket
+ agidel-syntrans.disbracket
  *
  (import scheme
          (chicken base))

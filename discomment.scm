@@ -1,5 +1,5 @@
 (module
- agidel-systrans-discomment
+ agidel-systrans.discomment
  *
  (import scheme
          format)
