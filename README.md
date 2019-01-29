@@ -21,14 +21,14 @@ configured. More about it below.
 
 Make yourself familiar with [Chicken Scheme
 eggs](http://wiki.call-cc.org/man/5/Extensions) Create an egg. When naming the
-module, follow this convention: `agidel-syntrans-<name here>`. Each such module
+module, follow this convention: `agidel-syntrans.<name here>`. Each such module
 must export function `main` which accepts one argument — source code before
 transformation as a string — and returns the code after transformation. For
 example: 
 
 ```scheme
 (module 
- agidel-syntrans-hello
+ agidel-syntrans.hello
  *
  (import scheme format)
  
@@ -47,7 +47,12 @@ transformers that should be used when transpiling Agidel. For example:
 (discomment
  disbracket
  disbrace
- prepare)
+ prepare
+ eval)
 ```
 
-If no such file is found, the default list is used instead. Edit as you wish.
+As you can see, even Agidel evaluation is implemented as a syntax
+transformer. Output of the final syntax transformer is the output of
+the whole transpilation process.
+
+If no such file is found, the default list is used instead. 
