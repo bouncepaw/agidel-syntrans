@@ -26,10 +26,10 @@
                [(eq? ch #\\) (set! escaping-char? #t)])])
             (cond
              [(eq? ch #\[)
-              (set! acc (add-to-list acc ch))
+              (set! acc (add-to-list acc (string->list "(_bracket")))
               (set! pairs-in-search (+ 1 pairs-in-search))]
              [(eq? ch #\])
-              (set! acc (add-to-list acc ch))
+              (set! acc (add-to-list acc #\)))
               (set! pairs-in-search (- pairs-in-search 1))]
              [(eq? ch #\")
               (set! in-string? #t)
@@ -40,4 +40,4 @@
      (when (not (zero? pairs-in-search))
        (display "Agidel: unmatched bracket pair. Exiting.")
        (exit 1))
-     (list->string acc))))
+     (list->string (flatten acc)))))
