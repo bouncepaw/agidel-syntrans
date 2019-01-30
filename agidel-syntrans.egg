@@ -6,6 +6,6 @@
     (extension agidel-syntrans.discomment (source "discomment.scm"))
     (extension agidel-syntrans.disbracket (source "disbracket.scm"))
     (extension agidel-syntrans.disbrace (source "disbrace.scm"))
-    ;; (extension agidel-syntrans.prepare (source "prepare.scm"))
+    (extension agidel-syntrans.prepare (source "prepare.scm"))
     ;; (extension agidel-syntrans.eval (source "eval.scm"))
 ))
