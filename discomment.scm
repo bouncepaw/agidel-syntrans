@@ -21,7 +21,7 @@
             (cond
              [escaping-char? (set! escaping-char? #f)]
              [(eq? ch #\\) (set! escaping-char? #t)]
-             [(eq? ch #\") (set! in-string? #t)]))}
+             [(eq? ch #\") (set! in-string? #f)]))}
          {(not deleting-comment?)
           (cond
            [(eq? ch #\;) (set! deleting-comment? #t)]
