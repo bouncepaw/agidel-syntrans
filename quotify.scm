@@ -1,5 +1,5 @@
 (module
- agidel-syntrans.prepare
+ agidel-syntrans.quotify
  *
  (import scheme
          (chicken base))
