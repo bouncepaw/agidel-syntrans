@@ -7,3 +7,5 @@ add discomment
 add disbrace
 add disbracket
 add quotify
+
+~/bin/cleanidel
