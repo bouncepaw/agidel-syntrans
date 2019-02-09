@@ -2,10 +2,8 @@
  agidel-syntrans.disbracket
  *
  (import scheme
-         (chicken base))
-
- (define (add-to-list lst elt)
-   (append lst (list elt)))
+         (chicken base)
+         (only (agidel core) add-to-list add-to-list!))
  
  (define (main source-string)
    (let [[in-string? #f]
@@ -17,25 +15,25 @@
         (if in-string?
             (cond
              [escaping-char?
-              (set! acc (add-to-list acc ch))
+              (add-to-list! acc ch)
               (set! escaping-char? #f)]
              [in-string?
-              (set! acc (add-to-list acc ch))
+              (add-to-list! acc ch)
               (cond
                [(eq? ch #\") (set! in-string? #f)]
                [(eq? ch #\\) (set! escaping-char? #t)])])
             (cond
              [(eq? ch #\[)
-              (set! acc (add-to-list acc (string->list "(_bracket")))
+              (add-to-list! acc (string->list "(_bracket"))
               (set! pairs-in-search (+ 1 pairs-in-search))]
              [(eq? ch #\])
-              (set! acc (add-to-list acc #\)))
+              (add-to-list! acc #\))
               (set! pairs-in-search (- pairs-in-search 1))]
              [(eq? ch #\")
               (set! in-string? #t)
-              (set! acc (add-to-list acc ch))]
+              (add-to-list! acc ch)]
              [else
-              (set! acc (add-to-list acc ch))])))
+              (add-to-list! acc ch)])))
       (string->list source-string))
      (when (not (zero? pairs-in-search))
        (display "Agidel: unmatched bracket pair. Exiting.")
