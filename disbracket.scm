@@ -24,7 +24,7 @@
                [(eq? ch #\\) (set! escaping-char? #t)])])
             (cond
              [(eq? ch #\[)
-              (add-to-list! acc (string->list "(_bracket"))
+              (add-to-list! acc (string->list "(_bracket "))
               (set! pairs-in-search (+ 1 pairs-in-search))]
              [(eq? ch #\])
               (add-to-list! acc #\))
