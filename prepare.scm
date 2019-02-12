@@ -78,4 +78,7 @@
 
 
   (define (main source-string)
-   source-string))
+    (define source-list (core/parse-string source-string))
+    (string-append
+     (map ->string
+          (map aeval source-list)))))
