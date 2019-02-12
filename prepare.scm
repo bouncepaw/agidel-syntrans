@@ -16,7 +16,7 @@
    (if (list? elt)
        (let* ((λ-name (string->symbol (car elt)))
               (signature-parser (make-signature-parser λ-name)))
-         (cons λ-name (signature-parser (cdr elt))))
+         (cons (symbol-append '/agidel/ λ-name) (signature-parser (cdr elt))))
        elt))
  
  ;; Hash-table of signatures.
