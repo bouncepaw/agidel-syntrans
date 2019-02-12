@@ -70,9 +70,9 @@
 
    (define signature-parser
      (cond
-      ((symbol? signature) rest-signature)
-      ((proper-list? signature) normal-signature)
-      ((dotted-list? signature) normal+rest-signature)))
+      ((symbol? signature) (rest-signature))
+      ((proper-list? signature) (normal-signature))
+      ((dotted-list? signature) (normal+rest-signature))))
 
    signature-parser)
 
