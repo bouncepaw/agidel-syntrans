@@ -36,7 +36,7 @@
 
    ;; Signature parser for macros with signatures that are proper lists:
    ;; (a a a a).
-   (define (normal-signature)
+   (define normal-signature
      (lambda (args)
        (let* ((signature-λ (map q/e->λ signature))
               (expected-length (length signature))
@@ -51,7 +51,7 @@
 
    ;; Signature parser for macros with signatures that are dotted lists:
    ;; (a a a . a).
-   (define (normal+rest-signature)
+   (define normal+rest-signature
      (lambda args
        (let* ((normal-part-length (length+ args))
               (normal-part-signature
@@ -64,15 +64,15 @@
                  (map rest-part-q/e rest-part)))))
 
    ;; Signature parser for macros with signatures that are symbols: a.
-   (define (rest-signature)
+   (define rest-signature
      (lambda args
        (map (q/e->λ signature) args)))
 
    (define signature-parser
      (cond
-      ((symbol? signature) (rest-signature))
-      ((proper-list? signature) (normal-signature))
-      ((dotted-list? signature) (normal+rest-signature))))
+      ((symbol? signature) rest-signature)
+      ((proper-list? signature) normal-signature)
+      ((dotted-list? signature) normal+rest-signature)))
 
    signature-parser)
 
