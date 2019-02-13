@@ -7,4 +7,5 @@
     (extension agidel-syntrans.disbracket (source "disbracket.scm"))
     (extension agidel-syntrans.disbrace (source "disbrace.scm"))
     (extension agidel-syntrans.quotify (source "quotify.scm"))
+    (extension agidel-syntrans.prepare (source "prepare.scm"))
 ))
