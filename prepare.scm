@@ -18,6 +18,9 @@
               (signature-parser (make-signature-parser λ-name)))
          (cons (symbol-append '/agidel/ λ-name) (signature-parser (cdr elt))))
        elt))
+
+ (define (aquote elt)
+   (eval (list 'quote elt)))
  
  ;; Hash-table of signatures.
  (define signatures (plugin/arities (plugin/needed-plugins)))
@@ -31,7 +34,7 @@
    ;; e → aeval
    (define (q/e->λ q/e)
      (case q/e
-       ((q) quote)
+       ((q) aquote)
        ((e) aeval)))
 
    ;; Signature parser for macros with signatures that are proper lists:
