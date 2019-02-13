@@ -23,7 +23,7 @@
    (eval (list 'quote elt)))
  
  ;; Hash-table of signatures.
- (define signatures (plugin/arities (plugin/needed-plugins)))
+ (define signatures (make-hash-table))
 
  ;; Return function that will transform (either quote or aeval) args of a
  ;; function.
@@ -81,4 +81,5 @@
 
 
   (define (main source-string plugin-list)
+    (set! signatures (plugin/arities plugin-list))
     source-string))
