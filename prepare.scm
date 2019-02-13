@@ -80,5 +80,5 @@
    signature-parser)
 
 
-  (define (main source-string)
+  (define (main source-string plugin-list)
     source-string))

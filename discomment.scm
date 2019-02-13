@@ -5,7 +5,7 @@
          (chicken base)
          (only (agidel core) add-to-list add-to-list!))
  
- (define (main source-string) ; -> string?
+ (define (main source-string _) ; -> string?
    (let [[in-string? #f]
          [deleting-comment? #f]
          [escaping-char? #f]

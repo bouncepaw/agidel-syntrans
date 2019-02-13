@@ -5,7 +5,7 @@
          (chicken base)
          (only (agidel core) add-to-list add-to-list!))
  
- (define (main source-string)
+ (define (main source-string _)
    (let [[in-string? #f]
          [escaping-char? #f]
          [pairs-in-search 0]

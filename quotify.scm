@@ -5,7 +5,7 @@
          (chicken base)
          (only (agidel core) add-to-list add-to-list!))
 
- (define (main source-string)
+ (define (main source-string _)
    (let [[mode 'nowhere] ; nowhere string sym list escaping-char
          [nest-level 0]
          [acc '()]]
