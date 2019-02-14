@@ -6,7 +6,9 @@
          (prefix (agidel core) core/)
          (prefix (agidel plugin) plugin/)
          (srfi 1)
+         (srfi 13)
          (srfi 69)
+         (clojurian syntax)
          format)
 
  ;; `elt` is either a list or an atom.
@@ -82,4 +84,8 @@
 
   (define (main source-string plugin-list)
     (set! signatures (plugin/arities plugin-list))
-    source-string))
+    (-> source-string
+        core/parse-string
+        (->> (map aeval)
+             (map (lambda (x) (format "~S" x))))
+        (as-> x (string-join x "\n" 'suffix)))))
