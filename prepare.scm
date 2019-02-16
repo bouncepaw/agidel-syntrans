@@ -60,10 +60,10 @@
      (lambda args
        (let* ((normal-part-length (length+ args))
               (normal-part-signature
-               (map q/e->λ (take args normal-part-length)))
+               (map q/e->λ (take signature normal-part-length)))
               (normal-part (take args normal-part-length))
               (rest-part-q/e
-               (q/e->λ (drop args normal-part-length)))
+               (q/e->λ (drop signature normal-part-length)))
               (rest-part (drop args normal-part-length)))
          (append (map eval (zip normal-part-signature normal-part))
                  (map rest-part-q/e rest-part)))))
