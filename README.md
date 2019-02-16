@@ -1,5 +1,5 @@
 # agidel-syntrans
-
+# DO NOT READ THIS YET AS API IS STILL WIP !!!!!!!!
 So, imagine yourself doing that:
 ```bash
 λ agidel file.lisp
