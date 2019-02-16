@@ -82,10 +82,10 @@
    signature-parser)
 
 
-  (define (main source-string plugin-list)
-    (set! signatures (plugin/arities plugin-list))
-    (-> source-string
-        core/parse-string
-        (->> (map aeval)
-             (map (lambda (x) (format "~S" x))))
-        (as-> x (string-join x "\n" 'suffix)))))
+ (define (main source-string plugin-list)
+   (set! signatures (plugin/signatures plugin-list))
+   (-> source-string
+       core/parse-string
+       (as-> x (map aeval x))
+       (as-> x (map (lambda (e) (format "~S" e)) x))
+       (as-> x (string-join x "\n" 'suffix)))))
