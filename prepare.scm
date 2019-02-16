@@ -1,6 +1,6 @@
 (module
  agidel-syntrans.prepare
- (main)
+ *
  (import scheme
          (chicken base)
          (prefix (agidel core) core/)
@@ -42,7 +42,7 @@
    ;; Signature parser for macros with signatures that are proper lists:
    ;; (a a a a).
    (define normal-signature
-     (lambda (args)
+     (lambda args
        (let* ((signature-λ (map q/e->λ signature))
               (expected-length (length signature))
               (args-length (length args)))
