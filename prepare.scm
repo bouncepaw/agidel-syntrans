@@ -10,82 +10,56 @@
          (srfi 69)
          (clojurian syntax)
          format)
-
- ;; `elt` is either a list or an atom.
- ;; if `elt` is a list, eval it according to (car `elt`) signature.
- ;; else return `elt`.
- (define (aeval elt)
-   (if (list? elt)
-       (let* ((λ-name (string->symbol (car elt)))
-              (signature-parser (make-signature-parser λ-name)))
-         (cons (symbol-append '/agidel/ λ-name) (signature-parser (cdr elt))))
-       elt))
-
- (define (aquote elt)
-   (eval (list 'quote elt)))
  
- ;; Hash-table of signatures.
  (define signatures (make-hash-table))
 
- ;; Return function that will transform (either quote or aeval) args of a
- ;; function.
- (define (make-signature-parser λ-name)
-   (define signature (hash-table-ref signatures λ-name))
+ (define (aquote expr)
+   (quote expr))
 
-   ;; q → quote
-   ;; e → aeval
-   (define (q/e->λ q/e)
-     (case q/e
-       ((q) aquote)
-       ((e) aeval)))
+ (define (q/e->λ q/e)
+   (cond
+    ((eq? q/e 'q) aquote)
+    ((eq? q/e 'e) aeval)))
 
-   ;; Signature parser for macros with signatures that are proper lists:
-   ;; (a a a a).
-   (define normal-signature
-     (lambda args
-       (let* ((signature-λ (map q/e->λ signature))
-              (expected-length (length signature))
-              (args-length (length args)))
-         (if (eq? args-length expected-length)
-             (map eval (zip signature-λ args))
-             (begin
-               (format (current-error-port)
-                       "Error when expanding `~A`: got ~A args instead of ~A."
-                       λ-name args-length expected-length)
-               (exit 1))))))
+ (define (make-parser name-of-λ)
+   (define signature (hash-table-ref signatures name-of-λ))
 
-   ;; Signature parser for macros with signatures that are dotted lists:
-   ;; (a a a . a).
-   (define normal+rest-signature
-     (lambda args
-       (let* ((normal-part-length (length+ args))
-              (normal-part-signature
-               (map q/e->λ (take signature normal-part-length)))
-              (normal-part (take args normal-part-length))
-              (rest-part-q/e
-               (q/e->λ (drop signature normal-part-length)))
-              (rest-part (drop args normal-part-length)))
-         (append (map eval (zip normal-part-signature normal-part))
-                 (map rest-part-q/e rest-part)))))
+   (define (rest-parser . args)
+     (define λ (q/e->λ signature))
+     (map λ args))
+   
+   (define (normal-parser . args)
+     (define λs (map q/e->λ signature))
+     (map (lambda (λ+arg)
+            ((car λ+arg) (cdr λ+arg)))
+          (zip λs args)))
 
-   ;; Signature parser for macros with signatures that are symbols: a.
-   (define rest-signature
-     (lambda args
-       (map (q/e->λ signature) args)))
+   (define (normal+rest-parser . args)
+     (define normal-length (length+ signature))
+     (define normal-λs (map q/e->λ (take signature normal-length)))
+     (define rest-λ (q/e->λ (drop signature normal-length)))
 
-   (define signature-parser
-     (cond
-      ((symbol? signature) rest-signature)
-      ((proper-list? signature) normal-signature)
-      ((dotted-list? signature) normal+rest-signature)))
+     (append (map (lambda (λ+arg) ((car λ+arg) (cdr λ+arg)))
+                  (zip normal-λs args))
+             (map rest-λ (drop args normal-length))))
 
-   signature-parser)
+   (cond
+    ((symbol? signature)      rest-parser)
+    ((proper-list? signature) normal-parser)
+    ((dotted-list? signature) normal+rest-parser)))
 
+ (define (aeval expr)
+   (cond
+    ((list? expr)
+     (let* ((name-of-λ   (string->symbol (car expr)))
+            (name-of-λ*  (symbol-append '/agidel/ name-of-λ))
+            (args        (cdr expr))
+            (parser      (make-parser name-of-λ))
+            (parsed-args (parser args)))
+       (cons name-of-λ* parsed-args)))
+    (else expr)))
 
- (define (main source-string plugin-list)
-   (set! signatures (plugin/signatures plugin-list))
-   (-> source-string
-       core/parse-string
-       (as-> x (map aeval x))
-       (as-> x (map (lambda (e) (format "~S" e)) x))
-       (as-> x (string-join x "\n" 'suffix)))))
+ (define (main source-string plugins)
+   (set! signatures (plugin/signatures plugins))
+   (map aeval
+        (core/parse-string source-string))))
