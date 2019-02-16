@@ -14,7 +14,7 @@
  (define signatures (make-hash-table))
 
  (define (aquote expr)
-   (quote expr))
+   `(quote ,expr))
 
  (define (q/e->λ q/e)
    (cond
@@ -31,7 +31,7 @@
    (define (normal-parser . args)
      (define λs (map q/e->λ signature))
      (map (lambda (λ+arg)
-            ((car λ+arg) (cdr λ+arg)))
+            (apply (car λ+arg) (cdr λ+arg)))
           (zip λs args)))
 
    (define (normal+rest-parser . args)
@@ -55,7 +55,7 @@
             (name-of-λ*  (symbol-append '/agidel/ name-of-λ))
             (args        (cdr expr))
             (parser      (make-parser name-of-λ))
-            (parsed-args (parser args)))
+            (parsed-args (apply parser args)))
        (cons name-of-λ* parsed-args)))
     (else expr)))
 
