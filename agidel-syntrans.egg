@@ -2,7 +2,7 @@
  (synopsis "Default Agidel syntax transformers")
  (category uncategorized)
  (license "MIT")
- (dependencies srfi-1 srfi-2 srfi-69 clojurian format agidel)
+ (dependencies srfi-1 srfi-13 srfi-69 clojurian format agidel)
  (components
     (extension agidel-syntrans.discomment (source "discomment.scm"))
     (extension agidel-syntrans.disbracket (source "disbracket.scm"))
