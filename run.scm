@@ -21,6 +21,5 @@
         (cons 'import)
         eval)
    ;; Eval it, convert to string.
-   (-> source-tree
-       eval
+   (-> (map eval source-tree)
        (string-join "\n" 'infix))))
