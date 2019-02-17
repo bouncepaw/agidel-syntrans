@@ -23,4 +23,4 @@
    ;; Eval it, convert to string.
    (-> source-tree
        eval
-       (string-join "\n" 'infix)))
+       (string-join "\n" 'infix))))
