@@ -52,7 +52,7 @@
    (cond
     ((list? expr)
      (let* ((name-of-λ   (string->symbol (car expr)))
-            (name-of-λ*  (symbol-append '/agidel name-of-λ))
+            (name-of-λ*  (symbol-append '/agidel/ name-of-λ))
             (args        (cdr expr))
             (parser      (make-parser name-of-λ))
             (parsed-args (apply parser args)))
