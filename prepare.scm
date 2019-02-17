@@ -22,7 +22,7 @@
     ((eq? q/e 'e) aeval)))
 
  (define (make-parser name-of-λ)
-   (define signature (hash-table-ref signatures name-of-λ))
+   (define signature (hash-table-ref signatures (symbol-append '/ name-of-λ)))
 
    (define (rest-parser . args)
      (define λ (q/e->λ signature))
